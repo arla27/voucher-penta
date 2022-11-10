@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title id="title"></title>
+    <meta name="description" content="Elisyam is a Web App and Admin Dashboard Template built with Bootstrap 4">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Google Fonts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                "families": ["Montserrat:400,500,600,700", "Noto+Sans:400,700"]
+            },
+            active: function() {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+    <!-- Favicon -->
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/img/favicon.ico">
+    <!-- Stylesheet -->
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/vendors/css/base/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/base/elisyam-1.5.min.css">
+    <link rel="stylesheet" href="assets/css/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl-carousel/owl.theme.min.css">
+    <link rel="stylesheet" href="assets/css/datatables/datatables.min.css">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.0/slimselect.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/croppie.css">
+    <!-- Tweaks for older IEs-->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+
+<body>
+    <div class="page">
+        <!-- Begin Header -->
+        <header class="header">
+            <nav class="navbar fixed-top">
+                <!-- Begin Search Box-->
+                <div class="search-box">
+                    <button class="dismiss"><i class="ion-close-round"></i></button>
+                    <form id="searchForm" action="#" role="search">
+                        <input type="search" placeholder="Search something ..." class="form-control">
+                    </form>
+                </div>
+                <!-- End Search Box-->
+                <!-- Begin Topbar -->
+                <div class="navbar-holder d-flex align-items-center align-middle justify-content-between">
+                    <!-- Begin Logo -->
+                    <div class="navbar-header">
+                        <a href="auth/login.php" class="navbar-brand">
+                            <div class="brand-image brand-big">
+                                <img src="assets/img/blastjet-sm.png" alt="logo" class="logo-big" style="width: 50px;"> BLASTJET
+                            </div>
+                        </a>
+                        <!-- Toggle Button -->
+                        <a id="toggle-btn" href="#" class="menu-btn active">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </a>
+                        <!-- End Toggle -->
+                    </div>
+                    <!-- End Logo -->
+                    <!-- Begin Navbar Menu -->
+                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center pull-right">
+
+                        <li class="nav-item dropdown">
+                            <a id="user" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link">
+                                <img src="assets/img/blastjet-sm.png" alt="..." class="avatar rounded-circle border"></a>
+                            <ul aria-labelledby="user" class="user-size dropdown-menu">
+                                <li class="welcome">
+                                    <a href="auth/login.php" class="edit-profil"><i class="la la-gear"></i></a>
+                                    <img src="assets/img/blastjet-sm.png" alt="..." class="rounded-circle border">
+                                </li>
+                                <li>
+                                    <h5 class="text-center">
+                                        BLASTJET LOG UPDATE
+                                    </h5>
+                                </li>
+                                <li class="separator"></li>
+                                <li><a rel="nofollow" href="#" data-target="#logoutModal" data-toggle="modal" class="dropdown-item logout text-center"><i class="ti-power-off"></i></a></li>
+                            </ul>
+                        </li>
+                        <!-- End User -->
+                    </ul>
+                    <!-- End Navbar Menu -->
+                </div>
+                <!-- End Topbar -->
+            </nav>
+        </header>
+        <!-- End Header -->
+        <!-- Begin Page Content -->
+        <div class="page-content d-flex align-items-stretch">
+            <div class="default-sidebar">
+                <!-- Begin Side Navbar -->
+                <nav class="side-navbar box-scroll sidebar-scroll">
+                    <!-- Begin Main Navigation -->
+                    <ul class="list-unstyled" id="sidebar-menu">
+                        <li id="dashboard-sid"><a href="users/dashboard.php"><i class="la ion-speedometer"></i><span>Dashboard</span></a>
+                        </li>
+                    </ul>
+                    <!-- End Main Navigation -->
+                </nav>
+                <!-- End Side Navbar -->
+            </div>
+            <!-- End Sidebar -->
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Anda Yakin Ingin Logout?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Pilih Tombol Logout di Bawah Ini, Jika Anda Ingin Mengakhiri Sesi Anda Saat Ini..</div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-gradient-01" href="auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Left Sidebar -->
+        <div class="content-inner">
+            <div class="container-fluid">
+                <!-- Begin Page Header-->
+                <div class="row">
+                    <div class="page-header">
+                        <div class="d-flex align-items-center">
+                            <h2 class="page-header-title">Changelog</h2>
+                            <div>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="db-default.html"><i class="ti ti-home"></i></a></li>
+                                    <li class="breadcrumb-item active">Changelog</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Page Header -->
+                <div class="row justify-content-center">
+                    <div class="col-xl-10 col-12">
+                        <!-- Begin Timeline -->
+                        <div class="timeline timeline-line-solid">
+                            <span class="timeline-label">
+                                <span class="label">Mei 2021</span>
+                            </span>
+                            <!-- Begin Timeline Item -->
+                            <div class="timeline-item">
+                                <div class="timeline-point timeline-point"></div>
+                                <!-- Begin Timeline Event -->
+                                <div class="timeline-event">
+                                    <!-- Begin Widget -->
+                                    <div class="widget has-shadow">
+                                        <!-- Begin Widget Header -->
+                                        <div class="widget-header d-flex align-items-center">
+                                            <div class="user-image">
+                                                <img src="assets/img/blastjet-sm.png" alt="...">
+                                            </div>
+                                            <div class="d-flex flex-column mr-auto">
+                                                <div class="title">
+                                                    <span class="username">Versi 1.6</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Widget Header -->
+                                        <!-- Begin Widget Body -->
+                                        <div class="widget-body">
+                                            <ul>
+                                                <li>⚙️ Sending Blast/ Broadcast</li>
+                                                <li>⚙️ Send Normal Message</li>
+                                                <li>⚙️ Saved Contact</li>
+                                                <li>⚙️ Import Contact From Contact Phone</li>
+                                                <li>⚙️ Export Contact to Excel</li>
+                                                <li>⚙️ Import Contact From Excel</li>
+                                            </ul>
+                                        </div>
+                                        <!-- End Widget Body -->
+                                    </div>
+                                    <!-- End Widget -->
+                                </div>
+                                <!-- End Timeline Event -->
+                            </div>
+                            <!-- End Timeline Item -->
+                            <span class="timeline-label">
+                                <span class="label">Juli 2021</span>
+                            </span>
+                            <!-- Begin Timeline Item -->
+                            <div class="timeline-item">
+                                <div class="timeline-point timeline-point"></div>
+                                <!-- Begin Timeline Event -->
+                                <div class="timeline-event">
+                                    <!-- Begin Widget -->
+                                    <div class="widget has-shadow">
+                                        <!-- Begin Widget Header -->
+                                        <div class="widget-header d-flex align-items-center">
+                                            <div class="user-image">
+                                                <img src="assets/img/blastjet-sm.png" alt="...">
+                                            </div>
+                                            <div class="d-flex flex-column mr-auto">
+                                                <div class="title">
+                                                    <span class="username">Versi 2</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Widget Header -->
+                                        <!-- Begin Widget Body -->
+                                        <div class="widget-body">
+                                            <ul>
+                                                <li>⚙️ Added Auto Reply</li>
+                                                <li>⚙️ Added Rest API V.BETA</li>
+                                            </ul>
+                                        </div>
+                                        <!-- End Widget Body -->
+                                    </div>
+                                    <!-- End Widget -->
+                                </div>
+                                <!-- Begin Timeline Event -->
+                            </div>
+                            <span class="timeline-label">
+                                <span class="label">September 2021</span>
+                            </span>
+                            <!-- Begin Timeline Item -->
+                            <div class="timeline-item">
+                                <div class="timeline-point timeline-point"></div>
+                                <!-- Begin Timeline Event -->
+                                <div class="timeline-event">
+                                    <!-- Begin Widget -->
+                                    <div class="widget has-shadow">
+                                        <!-- Begin Widget Header -->
+                                        <div class="widget-header d-flex align-items-center">
+                                            <div class="user-image">
+                                                <img src="assets/img/blastjet-sm.png" alt="...">
+                                            </div>
+                                            <div class="d-flex flex-column mr-auto">
+                                                <div class="title">
+                                                    <span class="username">Versi 2.8</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Widget Header -->
+                                        <!-- Begin Widget Body -->
+                                        <div class="widget-body">
+                                            <ul>
+                                                <li>⚙️ Added Multi Device</li>
+                                                <li>⚙️ Added Role (Admin/User)</li>
+                                                <li>⚙️ Added Activasi New User</li>
+                                                <li>⚙️ Added Dashboard to see All Users(only Admin)</li>
+                                            </ul>
+                                        </div>
+                                        <!-- End Widget Body -->
+                                    </div>
+                                    <!-- End Widget -->
+                                </div>
+                                <!-- Begin Timeline Event -->
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-point timeline-point"></div>
+                                <!-- Begin Timeline Event -->
+                                <div class="timeline-event">
+                                    <!-- Begin Widget -->
+                                    <div class="widget has-shadow">
+                                        <!-- Begin Widget Header -->
+                                        <div class="widget-header d-flex align-items-center">
+                                            <div class="user-image">
+                                                <img src="assets/img/blastjet-sm.png" alt="...">
+                                            </div>
+                                            <div class="d-flex flex-column mr-auto">
+                                                <div class="title">
+                                                    <span class="username">Versi 3</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Widget Header -->
+                                        <!-- Begin Widget Body -->
+                                        <div class="widget-body">
+                                            <ul>
+                                                <li>⚙️ Update Theme Login/Register</li>
+                                                <li>⚙️ Update Rest API V-BETA</li>
+                                                <li>⚙️ Update Display of Connected Devices</li>
+                                                <li>⚙️ Update Profile Page View</li>
+                                            </ul>
+                                        </div>
+                                        <!-- End Widget Body -->
+                                    </div>
+                                    <!-- End Widget -->
+                                </div>
+                                <!-- Begin Timeline Event -->
+                            </div>
+                            <span class="timeline-label">
+                                <span class="label">30 Desember 2021</span>
+                            </span>
+                            <!-- Begin Timeline Item -->
+                            <div class="timeline-item">
+                                <div class="timeline-point timeline-point"></div>
+                                <!-- Begin Timeline Event -->
+                                <div class="timeline-event">
+                                    <!-- Begin Widget -->
+                                    <div class="widget has-shadow">
+                                        <!-- Begin Widget Header -->
+                                        <div class="widget-header d-flex align-items-center">
+                                            <div class="user-image">
+                                                <img src="assets/img/blastjet-sm.png" alt="...">
+                                            </div>
+                                            <div class="d-flex flex-column mr-auto">
+                                                <div class="title">
+                                                    <span class="username">Versi 3.5</span><span style="background-color: green;color: honeydew;border-radius: 10%;width: 40px;text-align: center;margin-left: 10px;">new</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Widget Header -->
+                                        <!-- Begin Widget Body -->
+                                        <div class="widget-body">
+                                            <ul>
+                                                <li>⚙️ Added Button Message</li>
+                                                <li>⚙️ Added Vcard Contact</li>
+                                                <li>⚙️ Added Button Auto Response</li>
+                                                <li>⚙️ Fix Bug Error</li>
+                                            </ul>
+                                        </div>
+                                        <!-- End Widget Body -->
+                                    </div>
+                                    <!-- End Widget -->
+                                </div>
+                                <!-- Begin Timeline Event -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Begin Page Footer-->
+            <footer class="main-footer">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-center">
+                        <p class="text-gradient-02">Copyright 2021 &copy; BlastJET Allright Reserved.</p>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 d-flex align-items-center justify-content-xl-end justify-content-lg-end justify-content-md-end justify-content-center">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="changelog.htm">Changelog</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#title').html('BLASTJET > Changelog')
+            });
+        </script>
+        <!-- Begin Page Vendor Js -->
+        <script src="assets/vendors/js/nicescroll/nicescroll.min.js"></script>
+        <script src="assets/vendors/js/app/app.min.js"></script>
+        <!-- End Page Vendor Js -->
+</body>
+
+</html>

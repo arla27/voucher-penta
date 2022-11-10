@@ -1,0 +1,367 @@
+.logo-big {
+    width: 100px;
+}
+
+.scanqr-api {
+    width: 100%;
+    align-items: center;
+    height: 50px;
+    margin-top: 50px;
+    background-color: rgb(173, 3, 3) !important;
+    z-index: -10;
+}
+
+.card-header {
+    width: 120px;
+    height: 120px;
+    margin-top: -85px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255) !important;
+    border: 2px solid black;
+}
+
+.icon-api {
+    text-align: center;
+    font-size: 80px;
+    margin-top: -13px;
+    color: green;
+}
+
+.delet {
+    text-align: end;
+    display: none !important;
+    color: blue !important;
+}
+
+
+/* enable absolute positioning */
+
+.inner-addon {
+    position: relative;
+}
+
+
+/* style icon */
+
+.inner-addon .la {
+    font-size: 18px;
+    color: green;
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+}
+
+
+/* align icon */
+
+.left-addon .la {
+    left: 0px;
+}
+
+.right-addon .la {
+    right: 0px;
+}
+
+
+/* add padding  */
+
+.left-addon input {
+    padding-left: 30px;
+}
+
+.right-addon input {
+    padding-right: 30px;
+}
+
+.codeback {
+    background-color: #2d2d2d;
+}
+
+
+/* http://prismjs.com/download.html?themes=prism-okaidia&languages=markup+css+clike+javascript+ruby+git+haml+handlebars+http+php+python+sass+scss+vim+yaml&plugins=line-numbers */
+
+
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #f8f8f2;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+
+/* Code blocks */
+
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+    border-radius: 0.3em;
+}
+
+ :not(pre)>code[class*="language-"],
+pre[class*="language-"] {
+    background: #272822;
+}
+
+
+/* Inline code */
+
+ :not(pre)>code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #f8f8f2;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+    color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+    color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function {
+    color: #e6db74;
+}
+
+.token.keyword {
+    color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+    color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+pre.line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre.line-numbers>code {
+    position: relative;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em;
+    /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.line-numbers-rows>span {
+    pointer-events: none;
+    display: block;
+    counter-increment: linenumber;
+}
+
+.line-numbers-rows>span:before {
+    content: counter(linenumber);
+    color: #999;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}
+
+.btn .label {
+    position: relative;
+    top: -1px;
+    margin-right: 5px;
+}
+
+.label-primary {
+    background-color: #428bca;
+}
+
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.code-block {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.doc-section {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.doc-section .section-title {
+    font-size: 26px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d7d6d6;
+}
+
+.doc-section h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.doc-section h2 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.doc-section h3 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.doc-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.doc-section h5 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.doc-section h6 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.card-foto {
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #b1b1b1
+}
+
+.la-camera {
+    margin-top: 7px;
+    color: black;
+}
+
+figcaption {
+    margin-top: -14px;
+    position: relative;
+    z-index: 1000;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label.cabinet {
+    display: block;
+    cursor: pointer;
+}
+
+input.file {
+    position: relative;
+    width: auto;
+    opacity: 0;
+    -moz-opacity: 0;
+    filter: progid: DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+#upload-demo {
+    width: 30px;
+    height: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+    .poto {
+        margin-bottom: 50px;
+    }
+}

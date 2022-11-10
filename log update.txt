@@ -1,0 +1,38 @@
+<>==============================<>
+     BLASJET WHATSAPP GATEWAY
+        -----------------
+<>==============================<>
+           ChangeLog:
+<>==============================<>
+  V.1
+
+- Sending Blast/Broadcast
+- Send Message
+- Add Number Phone
+<>==============================<>
+  V.1.6
+- Import Contact (excel)
+- Export Contact (excel)
+<>==============================<>
+  V.2
+- Added Auto Reply
+- Added Rest API V.BETA
+<>==============================<>
+ V.2.8
+- Added Multi Device
+- Added Role (Admin/User)
+- Added Activasi New User
+- Added Dashboard to see All Users(only Admin)
+<>==============================<>
+ V.3
+- Update Theme Login/Register
+- Update Rest API V-BETA
+- Update Display of Connected Devices
+- Update Profile Page View
+
+<>==============================<>
+ V.3.5 (UPDATE) New
+- Added Added Button Message
+- Added Vcard Contact
+- Added Button Auto Response
+- Fix Bug Error
