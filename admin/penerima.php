@@ -231,74 +231,58 @@ require_once('../templates/header.php');
             </div>
         </div>
         <!-- End Page Header -->
-        <div class="alert alert-danger alert-dissmissible fade show" role="alert">
+        <!-- <div class="alert alert-danger alert-dissmissible fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
             Default Messages<br><i class="la la-share-alt"></i>Data Costumer -> Nomor Tersimpan.
-        </div>
+        </div> -->
         <!-- Default -->
-        <div class="row container">
+        <!-- <div class="row container">
             <div class="col">
                 <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModal"><i class="ion-paper-airplane"></i> Send Messages</button>
                 <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#kirimpesan2"><i class="ion-paperclip"></i>Default Messages</button>
             </div>
-        </div>
+        </div> -->
         <div class="mb-4"></div>
         <div class="row">
             <div class="col-xl-12">
                 <!-- Sorting -->
                 <div class="widget has-shadow">
                     <div class="widget-header bordered no-actions d-flex align-items-center">
-                        <div class="col"> Status Message</div>
-                        <a class="btn btn-danger text-end" href="broadcast.php?del=all"><i class="ion-trash-b"></i>(Terkirim)</a>
+                        <div class="col"> Data penerima Voucher</div>
+                        <!-- <a class="btn btn-danger text-end" href="broadcast.php?del=all"><i class="ion-trash-b"></i>(Terkirim)</a> -->
                     </div>
                     <div class="widget-body">
                         <div class="table-responsive">
                             <table id="sorting-table" class="table mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Sender</th>
-                                        <th>Nomor</th>
-                                        <th>Pesan</th>
-                                        <th>Media</th>
-                                        <th>Jadwal</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th>NIK</th>
+                                        <th>NAMA</th>
+                                        <th>Alamat</th>
+                                        <th>No. Tlp</th>
+                                        <th>Email</th>
+                                        <th>Cabang</th>
+                                        <!-- <th>Voucher</th> -->
+                                        <th>Tgl Terima</th>
+                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
 
                                     $username = $_SESSION['username'];
-                                    $q = mysqli_query($koneksi, "SELECT * FROM pesan WHERE make_by='$username' ORDER BY id DESC");
+                                    $q = mysqli_query($koneksi, "SELECT * FROM user WHERE make_by='$username' ORDER BY tgl_pakai DESC");
                                     while ($row = mysqli_fetch_assoc($q)) {
                                         echo '<tr>';
-                                        echo '<td>' . $row['sender'] . '</td>';
-                                        echo '<td>' . $row['nomor'] . '</td>';
-                                        if (strlen(utf8_decode($row['pesan'])) >= 50) {
-                                            echo '<td>' . substr(utf8_decode($row['pesan']), 0, 50) . '...' . '</td>';
-                                        } else {
-                                            echo '<td>' . utf8_decode($row['pesan']) . '</td>';
-                                        }
-                                        if (substr($row['media'], -3) == "pdf") {
-                                            echo '<td><a href="' . $row['media'] . '" target="_blank"><img src="../assets/img/pdf.png" title="' . $row['media'] . '" style="width:40px"></a></td>';
-                                        } else {
-                                            echo '<td><a href="' . $row['media'] . '" target="_blank"><img src="' . $row['media'] . '" title="' . $row['media'] . '" style="width:40px">' .  '</a></td>';
-                                        }
-                                        echo '<td>' . $row['jadwal'] . '</td>';
-                                        if ($row['status'] == "TERKIRIM") {
-                                            echo '<td><span class="badge badge-success status-container-' . $row['id'] . '">Sukses Terkirim</span></td>';
-                                        } else if ($row['status'] == "GAGAL") {
-                                            echo '<td><span class="badge badge-danger status-container-' . $row['id'] . '">Gagal Terkirim</span></td>';
-                                        } else {
-                                            echo '<td><span class="badge badge-warning status-container-' . $row['id'] . '">Menunggu Jadwal / Pending</span></td>';
-                                        }
+                                        echo '<td>' . $row['nik'] . '</td>';
+                                        echo '<td>' . $row['nama'] . '</td>';
+                                        echo '<td>' . $row['alamat'] . '</td>';
+                                        echo '<td>' . $row['no_tlp'] . '</td>';
+                                        echo '<td>' . $row['email'] . '</td>';
+                                        echo '<td>' . $row['cabang'] . '</td>';
+                                        // echo '<td>' . $row['kode'] . '</td>';
+                                        echo '<td>' . $row['tgl_pakai'] . '</td>';
 
-                                        if ($row['status'] == "GAGAL") {
-                                            echo '<td class="button-container-' . $row['id'] . '"><a class="btn btn-success" href="broadcast.php?a=resender&id=' . $row['id'] . '">Resend</a><a style="margin:5px" class="btn btn-danger" href="hapus_pesan.php?id=' . $row['id'] . '">Delete</a></td>';
-                                        } else {
-                                            echo '<td class="button-container-' . $row['id'] . '"><a class="btn btn-danger" href="hapus_pesan.php?id=' . $row['id'] . '">Delete</a></td>';
-                                        }
-                                        echo '</tr>';
                                     }
 
                                     ?>
@@ -321,8 +305,8 @@ require_once('../templates/header.php');
                                 <i class="ion-checkmark-circled text-success"></i>
                             </div>
                             <div class="media-body align-self-center">
-                                <div class="title text-facebook">Terkirim</div>
-                                <div class="number"> <?= countUS("pesan", "status", "TERKIRIM", "make_by", $username) ?> dari <?= countDB("pesan", "make_by", $username) ?> Pesan</div>
+                                <div class="title text-facebook">Penerima</div>
+                                <div class="number"> <?= countDB("user", "make_by", $username) ?> dari <?= countDB("kode_voucher",  "make_by", "admin") ?> Total Voucher</div>
                             </div>
                         </div>
                     </div>
@@ -336,8 +320,8 @@ require_once('../templates/header.php');
                                 <i class="ion-close-circled text-danger"></i>
                             </div>
                             <div class="media-body align-self-center">
-                                <div class="title text-facebook">Gagal Terkirim</div>
-                                <div class="number"><?= countUS("pesan", "status", "GAGAL", "make_by", $username) ?> Pesan</div>
+                                <div class="title text-facebook">Belum digunakan</div>
+                                <div class="number"><?= countUS("kode_voucher", "stats", "not used", "make_by", "admin") ?> Voucher</div>
                             </div>
                         </div>
                     </div>

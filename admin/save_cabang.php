@@ -10,44 +10,48 @@ if ($login == 0) {
 if ($_SESSION["level"] != 1) {
     redirect("../users/save_cabang.php");
 }
-if (post("nama")) {
-    $nama = post("nama");
-    $nomor = post("nomor");
-    $pesan = utf8_encode(post("pesan"));
+if (post("cd_branch")) {
+    $cd_branch = post("cd_branch");
+    $branch_name = post("branch_name");
+    $address = utf8_encode(post("address"));
+    $city = post("city");
     $u = $_SESSION['username'];
-    $count = countNo("nomor", "nomor", $nomor, "make_by", $u);
+    $count = countDB("branch", "cd_branch", $cd_branch);
     if ($count == 0) {
-        $q = mysqli_query($koneksi, "INSERT INTO nomor(`nama`, `nomor`,`pesan`, `make_by`)
-            VALUES('$nama', '$nomor','$pesan', '$u')");
-        swal_set("success", "Berhasil menambahkan nomor");
+        $q = mysqli_query($koneksi, "INSERT INTO branch(`cd_branch`, `branch_name`,`address`, `city`,`user_created`)
+            VALUES('$cd_branch', '$branch_name','$address','$city', '$u')");
+        swal_set("success", "Berhasil menambahkan branch");
         redirect("save_cabang.php");
     } else {
-        swal_set("error", "Nomor yang di input sudah tersedia");
+        swal_set("error", "branch yang di input sudah tersedia");
         redirect("save_cabang.php");
     }
 }
 // update
-if (post("num")) {
-    $nama = post("name");
-    $nomor = post("num");
-    $id = post("id");
-    $pesan = utf8_encode(post("pesan"));
-    $update = mysqli_query($koneksi, "UPDATE `nomor` SET `nama` = '$nama', `nomor`='$nomor', `pesan`='$pesan' WHERE `nomor`.`id` = '$id'");
-    swal_set("success", "Berhasil update contact " . $nama);
-    redirect("save_cabang.php");
+if (isset($_POST['update-branch'])) {
+    $cd_branch = post("cd_branch");
+    $branch_name = post("branch_name");
+    $address = utf8_encode(post("address"));
+    $city = post("city");
+    $update = mysqli_query($koneksi, "UPDATE `branch` SET  `cd_branch`='$cd_branch',`branch_name`='$branch_name',`address`='$address', `city`='$city' WHERE `branch`.`cd_branch` = '$cd_branch'");
+    if ($update) {
+        swal_set("success", "Berhasil update data branch");
+    } else {
+        swal_set("error", "Gagal update data branch");
+    }
 }
 
 if (get("act") == "hapus") {
     $id = get("id");
 
-    $q = mysqli_query($koneksi, "DELETE FROM nomor WHERE id='$id'");
-    swal_set("success", "Berhasil menghapus nomor");
+    $q = mysqli_query($koneksi, "DELETE FROM branch WHERE cd_branch='$id'");
+    swal_set("success", "Berhasil menghapus branch");
     redirect("save_cabang.php");
 }
 
 if (get("act") == "delete_all") {
-    $q = mysqli_query($koneksi, "DELETE FROM nomor");
-    swal_set("success", "Berhasil hapus semua nomor");
+    $q = mysqli_query($koneksi, "DELETE FROM branch");
+    swal_set("success", "Berhasil hapus semua branch");
     redirect("save_cabang.php");
 }
 require_once('../templates/header.php');
@@ -71,16 +75,16 @@ require_once('../templates/header.php');
             </div>
         </div>
         <!-- End Page Header -->
-        <div class="alert alert-danger alert-dissmissible fade show" role="alert">
+        <!-- <div class="alert alert-danger alert-dissmissible fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
             <div class="text-center">Import Kontak langsung dengan Excel?</div>
             <div class="text-center"><a href="<?= $base_url; ?>lib/template-import-kontak.xlsx" class="btn btn-success text-center">Download Template</a></div>
-        </div>
+        </div> -->
         <!-- Default -->
         <div class="row container">
             <div class="col">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    <i class="ion ion-person-add"></i>Add cabang
+                    <i class="ion ion-person-add"></i>Add Branch
                 </button>
             </div>
         </div>
@@ -89,15 +93,14 @@ require_once('../templates/header.php');
             <div class="col-xl-12">
                 <!-- Sorting -->
                 <div class="widget has-shadow">
-                    <div class="widget-header bordered no-actions d-flex align-items-center">
-                        <div class="col"> Saved cabang</div>
+                    <!-- <div class="widget-header bordered no-actions d-flex align-items-center">
+                        <div class="col"> Saved Branch</div>
                         <a class="btn btn-info float-right" href="<?= $base_url; ?>lib/export_excel.php" style="margin:5px"><i class="ion ion-aperture"></i>Export Excel</a>
-                        <button type="button" class="btn btn-success float-right" data-toggle="modal" style="margin:5px" data-target="#import"><i class="ion 
-ion-archive"></i>
+                        <button type="button" class="btn btn-success float-right" data-toggle="modal" style="margin:5px" data-target="#import"><i class="ion ion-archive"></i>
                             Import Excel
                         </button>
                         <a class="btn btn-danger float-right" href="save_cabang.php?act=delete_all" style="margin:5px"><i class="ion ion-trash-a"></i> Delete All</a>
-                    </div>
+                    </div> -->
 
                     <div class="widget-body">
                         <div class="table-responsive">
@@ -139,27 +142,51 @@ ion-archive"></i>
                 <!-- End Sorting -->
             </div>
         </div>
+               <div class="row flex-row">
+            <!-- Begin Facebook -->
+
+            <div class="col-xl-4 col-md-6 col-sm-6">
+                <div class="widget widget-12 has-shadow">
+                    <div class="widget-body">
+                        <div class="media">
+                            <div class="align-self-center ml-5 mr-5">
+                                <i class="ion-checkmark-circled text-success"></i>
+                            </div>
+                            <div class="media-body align-self-center">
+                                <div class="title text-facebook">Total Branch</div>
+                                <div class="number"><?= countDD("branch", "cd_branch") ?> Branch</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Branch</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form action="" method="POST">
-                        <label>Name </label>
-                        <input type="text" name="nama" required class="form-control">
+                        <label>Branch code</label>
+                        <input type="text" name="cd_branch" required class="form-control">
                         <br>
-                        <label>Nomor Whatsapp </label>
-                        <input type="text" name="nomor" required class="form-control">
+                        <label>Branch name</label>
+                        <input type="text" name="branch_name" required class="form-control">
                         <br>
-                        <label>Message Default </label>
-                        <textarea type="text" name="pesan" required class="form-control" placeholder="Pesan Default"></textarea>
+                        <label>Address</label>
+                        <textarea type="text" name="address" required class="form-control" placeholder="Alamat"></textarea>
+                        <br>
+                        <label>City</label>
+                        <input type="text" name="city" required class="form-control">
+                        <br>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -176,18 +203,18 @@ ion-archive"></i>
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Update Contact ~ <?= $row['branch_name'] ?></h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Update Branch ~ <?= $row['branch_name'] ?></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="POST">
+                        <form action="" method="POST" enctype="multipart/form-data">
                             <label>Branch Code </label>
-                            <input type="text" name="cd_branch" disabled value="<?= $row['cd_branch'] ?>" class="form-control">
+                            <input type="text" name="cd_branch" readonly class="form-control value="<?= $row['cd_branch'] ?>" ">
                             <br>
                             <label>Branch Name </label>
-                            <input type="text" name="branch_name" disabled value="<?= $row['branch_name'] ?>" class="form-control">
+                            <input type="text" name="branch_name" readonly class="form-control" value="<?= $row['branch_name'] ?>" >
                             <br>
                             <label>Address </label>
                             <textarea type="text" name="address" required class="form-control" placeholder="alamat"><?= $row['address'] ?></textarea>
@@ -198,7 +225,7 @@ ion-archive"></i>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" name="update-branch"  class="btn btn-primary">Update</button>
                         </form>
                     </div>
                 </div>
@@ -209,7 +236,7 @@ ion-archive"></i>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Nomor</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Import branch</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -222,10 +249,10 @@ ion-archive"></i>
                         <label> Mulai dari Baris</label>
                         <input type="text" name="a" required class="form-control" value="4">
                         <br>
-                        <label> Kolom Nama </label>
+                        <label> Kolom cd_branch </label>
                         <input type="text" name="b" required class="form-control" value="1">
                         <br>
-                        <label> Kolom Nomor </label>
+                        <label> Kolom branch </label>
                         <input type="text" name="c" required class="form-control" value="2">
                         <br>
                         <label> Kolom Pesan Default </label>
@@ -262,7 +289,7 @@ ion-archive"></i>
 
         ?>
         $(document).ready(function() {
-            $('#title').html('BLASTJET > Saved cabang')
+            $('#title').html('PENTA PRIMA > Saved cabang')
         });
         document.getElementById("costumer-sid").classList.add("active");
     </script>

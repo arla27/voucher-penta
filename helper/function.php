@@ -77,6 +77,19 @@ function countDB($table, $where = null, $param = null)
     $row = mysqli_num_rows($q);
     return $row;
 }
+
+function countDD($table, $param = null)
+{
+    global $koneksi;
+    if ($param == null) {
+        $q = mysqli_query($koneksi, "SELECT * FROM `$table`");
+    } else {
+        $q = mysqli_query($koneksi, "SELECT * FROM `$table` ");
+    }
+    $row = mysqli_num_rows($q);
+    return $row;
+}
+
 function countUS($table, $where, $param, $and = null, $param2 = null)
 {
     global $koneksi;
@@ -115,11 +128,11 @@ function countDev($where = null, $param = null)
 
 function countPresentase()
 {
-    $username = $_SESSION['username'];
-    $a = countUS("pesan", "status", "TERKIRIM", "make_by", $username);
-    $b = countDB("pesan", "make_by", $username);
+    $username = "admin";
+    $a = countUS("kode_voucher", "stats", "used", "make_by", $username);
+    $b = countDB("kode_voucher", "make_by", $username);
     if ($a > 0) {
-        return (countUS("pesan", "status", "TERKIRIM", "make_by", $username) / $b) * 100;
+        return (countUS("kode_voucher", "stats", "used", "make_by", $username) / $b) * 100;
     } else {
         return 0;
     }

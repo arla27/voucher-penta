@@ -182,8 +182,8 @@ require_once('../templates/header.php');
                                 <i class="ion-person-stalker text-facebook"></i>
                             </div>
                             <div class="media-body align-self-center">
-                                <div class="title text-facebook">Users Terdaftar</div>
-                                <div class="number"><?= countUser("username") ?> Users</div>
+                                <div class="title text-facebook">Account Terdaftar</div>
+                                <div class="number"><?= countUser("username") ?> Admin</div>
                             </div>
                         </div>
                     </div>
@@ -198,15 +198,15 @@ require_once('../templates/header.php');
                 <!-- Sorting -->
                 <div class="widget has-shadow">
                     <div class="widget-header bordered no-actions d-flex align-items-center">
-                        <div class="col">User Terdaftar</div>
-                        <div class="btn btn-primary mr-1" data-toggle="modal" data-target="#Forgot">
+                        <div class="col">Admin Terdaftar</div>
+                        <!-- <div class="btn btn-primary mr-1" data-toggle="modal" data-target="#Forgot">
                             <i class="ion-locked" aria-hidden="true"></i> Forgot Password
-                        </div>
+                        </div> -->
                         <div class="btn btn-success mr-1" data-toggle="modal" data-target="#expired">
                             <i class="ion-clock" aria-hidden="true"></i> Expired Users
                         </div>
                         <div class="btn btn-success" data-toggle="modal" data-target="#addUser">
-                            <i class="ion-person-add" aria-hidden="true"></i> Add User
+                            <i class="ion-person-add" aria-hidden="true"></i> Add Admin
                         </div>
                     </div>
                     <div class="widget-body">
@@ -267,7 +267,7 @@ require_once('../templates/header.php');
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Admin</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -284,7 +284,7 @@ require_once('../templates/header.php');
                             <select class="form-control" name="lvl" required>
                                 <option value="" disabled selected>Select Role User</option>
                                 <option value="1">Admin</option>
-                                <option value="2">User</option>
+                                <!-- <option value="2">User</option> -->
                             </select>
                             <br>
                             <label>Expired </label>
