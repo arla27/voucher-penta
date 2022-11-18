@@ -26,16 +26,7 @@ if (post("kode")) {
         redirect("save_voucher.php");
     }
 }
-// update
-if (post("num")) {
-    $kode = post("name");
-    $nominal = post("num");
-    $id = post("id");
-    $stats = utf8_encode(post("stats"));
-    $update = mysqli_query($koneksi, "UPDATE `kode_voucher` SET `kode` = '$kode', `nominal`='$nominal', `stats`='$stats' WHERE `kode_voucher`.`id` = '$id'");
-    swal_set("success", "Berhasil update voucher" . $kode);
-    redirect("save_voucher.php");
-}
+
 
 if (get("act") == "hapus") {
     $id = get("id");
@@ -71,11 +62,7 @@ require_once('../templates/header.php');
             </div>
         </div>
         <!-- End Page Header -->
-        <!-- <div class="alert alert-danger alert-dissmissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-            <div class="text-center">Import Kontak langsung dengan Excel?</div>
-            <div class="text-center"><a href="<?= $base_url; ?>lib/template-import-kontak.xlsx" class="btn btn-success text-center">Download Template</a></div>
-        </div> -->
+
         <!-- Default -->
         <div class="row container">
             <div class="col">
@@ -93,14 +80,6 @@ require_once('../templates/header.php');
             <div class="col-xl-12">
                 <!-- Sorting -->
                 <div class="widget has-shadow">
-                    <!-- <div class="widget-header bordered no-actions d-flex align-items-center">
-                        <div class="col"> Saved voucher</div>
-                        <a class="btn btn-info float-right" href="<?= $base_url; ?>lib/export_excel.php" style="margin:5px"><i class="ion ion-aperture"></i>Export Excel</a>
-                        <button type="button" class="btn btn-success float-right" data-toggle="modal" style="margin:5px" data-target="#import"><i class="ion ion-archive"></i>
-                            Import Excel
-                        </button>
-                        <a class="btn btn-danger float-right" href="save_voucher.php?act=delete_all" style="margin:5px"><i class="ion ion-trash-a"></i> Delete All</a>
-                    </div> -->
 
                     <div class="widget-body">
                         <div class="table-responsive">
@@ -266,40 +245,7 @@ require_once('../templates/header.php');
             </div>
         </div>
     <?php  } ?>
-    <div class="modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import nominal</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="../lib/import_excel.php" method="POST" enctype="multipart/form-data">
-                        <label> File Excel (.xlsx) </label>
-                        <input type="file" name="file" required class="form-control">
-                        <br>
-                        <label> Mulai dari Baris</label>
-                        <input type="text" name="a" required class="form-control" value="4">
-                        <br>
-                        <label> Kolom kode </label>
-                        <input type="text" name="b" required class="form-control" value="1">
-                        <br>
-                        <label> Kolom nominal </label>
-                        <input type="text" name="c" required class="form-control" value="2">
-                        <br>
-                        <label> Kolom stats Default </label>
-                        <input type="text" name="d" required class="form-control" value="3">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div style="height:70px;">
 
     </div>
