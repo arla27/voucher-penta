@@ -53,12 +53,7 @@ if (post("chunk")) {
         redirect('setting.php?blast=ApiKey/' . $u);
     }
 }
-if (post("apikey")) {
-    $api_key = sha1(date("Y-m-d H:i:s") . rand(100000, 999999));
-    mysqli_query($koneksi, "UPDATE account SET api_key='$api_key' WHERE username='$u'");
-    toastr_set("success", "Berhasil Generate Api Key Baru");
-    redirect('setting.php?blast=ApiKey/' . $u);
-}
+
 
 
 if (post("idnomor")) {
@@ -109,12 +104,6 @@ require('../templates/header.php');
                             <li class="nav-item">
                                 <a class="nav-link" href="setting.php?blast=Profiles/<?= $username ?>"><i class="la la-user align-middle pr-2"></i>Profile</a>
                             </li>
-                            <!-- <li class="nav-item">
-                                <a class="nav-link" href="setting.php?blast=ApiKey/<?= $username ?>"><i class="la la-code align-middle pr-2"></i>Api Key</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="setting.php?blast=setWebHook/<?= $username ?>"><i class="la la-bolt align-middle pr-2"></i>Webhook</a>
-                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" href="setting.php?blast=changePassword/<?= $username ?>"><i class="la la-lock align-middle pr-2"></i>Change Password</a>
                             </li>
@@ -153,10 +142,6 @@ require('../templates/header.php');
                 $page = $_GET['blast'];
 
                 switch ($page) {
-                    case 'setWebHook/' . $username:
-                        $title = "Set Your WebHook";
-                        include "../settings/webhook.php";
-                        break;
                     case 'Profiles/' . $username:
                         $title = "Edit Profile";
                         include "../settings/profile.php";
@@ -164,10 +149,6 @@ require('../templates/header.php');
                     case 'changePassword/' . $username:
                         $title = "Set New Password";
                         include "../settings/account.php";
-                        break;
-                    case 'ApiKey/' . $username:
-                        $title = "Set New Password";
-                        include "../settings/api_token.php";
                         break;
                     default:
                         include "../settings/profile.php";
