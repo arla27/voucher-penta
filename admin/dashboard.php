@@ -43,9 +43,7 @@ if (post("uname")) {
         swal_set("error", "Username Sudah dipakai");
          redirect('dashboard.php');
     } 
-    // else if ($cek_whatsapp->num_rows > 0) {
-    //     toastr_set("error", "Nomor Whatsapp sudah terdaftar!");
-    // }
+
     else {
         $q = mysqli_query($koneksi, "INSERT INTO `account` (`id`, `username`, `password`, `api_key`, `level`, `chunk`, `photo`, `whatsapp`, `aktif`, `token`,`date_pro`) VALUES ('','$username','$encpt_password','$api_key',$role,'10','$defaultphoto','$whatsapp','1','ADDED','$expired')");
     if ($q) {
