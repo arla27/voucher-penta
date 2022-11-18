@@ -109,12 +109,12 @@ require('../templates/header.php');
                             <li class="nav-item">
                                 <a class="nav-link" href="setting.php?blast=Profiles/<?= $username ?>"><i class="la la-user align-middle pr-2"></i>Profile</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="setting.php?blast=ApiKey/<?= $username ?>"><i class="la la-code align-middle pr-2"></i>Api Key</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="setting.php?blast=setWebHook/<?= $username ?>"><i class="la la-bolt align-middle pr-2"></i>Webhook</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" href="setting.php?blast=changePassword/<?= $username ?>"><i class="la la-lock align-middle pr-2"></i>Change Password</a>
                             </li>
