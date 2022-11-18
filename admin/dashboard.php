@@ -26,7 +26,8 @@ if (post("uname")) {
     $whatsapp = post("wa");
     $role = post("lvl");
     $expired = post("exp");
-    $password = generate_password();
+    $password = "PENTA";
+    // $password = generate_password();
     $encpt_password = sha1($password);
     $defaultphoto = "../img/profiles1.png";
     $api_key = sha1(date("Y-m-d H:i:s") . rand(100000, 999999));
@@ -236,7 +237,7 @@ require_once('../templates/header.php');
                                         if ($row['level'] == 1) {
                                             echo '<td><span class="badge badge-info status-container-' . $row['id'] . '">Admin</span></td>';
                                         } else {
-                                            echo '<td><span class="badge badge-warning status-container-' .$row['id'] . '">Customer</span></td>';
+                                            echo '<td><span class="badge badge-warning status-container-' .$row['id'] . '">Cabang</span></td>';
                                         }
                                         if ($row['aktif'] == 1) {
                                             echo '<td><span class="badge badge-success status-container-' . $row['id'] . '">Aktif</span></td>';
@@ -284,7 +285,7 @@ require_once('../templates/header.php');
                             <select class="form-control" name="lvl" required>
                                 <option value="" disabled selected>Select Role User</option>
                                 <option value="1">Admin</option>
-                                <!-- <option value="2">User</option> -->
+                                <option value="2">Cabang</option>
                             </select>
                             <br>
                             <label>Expired </label>
@@ -326,10 +327,10 @@ require_once('../templates/header.php');
                                     <option value="" disabled selected><?php if ($row['level'] == 1) {
                                                                             echo 'Admin';
                                                                         } else {
-                                                                            echo 'User';
+                                                                            echo 'Cabang';
                                                                         } ?></option>
                                     <option value="1">Admin</option>
-                                    <option value="2">User</option>
+                                    <option value="2">Cabang</option>
                                 </select>
                                 <br>
                                 <label>Status </label>
@@ -449,7 +450,7 @@ require_once('../templates/header.php');
 
     ?>
     $(document).ready(function() {
-        $('#title').html('BLASTJET > Dashboard')
+        $('#title').html('PENTA PRIMA > Dashboard')
     });
     document.getElementById("dashboard-sid").classList.add("active");
 </script>
