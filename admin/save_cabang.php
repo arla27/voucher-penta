@@ -87,6 +87,7 @@ require_once('../templates/header.php');
                     <i class="ion ion-person-add"></i>Add Branch
                 </button>
             </div>
+            <a class="btn btn-info float-right" href="<?= $base_url; ?>lib/branch.php" style="margin:5px">Export Branch Excel</a>
         </div>
         <div class="mb-4"></div>
         <div class="row">
