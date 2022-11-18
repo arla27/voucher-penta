@@ -1,6 +1,8 @@
 <?php
 include_once("../helper/conn.php");
 include_once("../helper/function.php");
+include_once("../helper/validation.php");
+
 
 
 $login = cekSession();
@@ -10,165 +12,224 @@ if ($login == 0) {
 if ($_SESSION["level"] != 2) {
     redirect("../admin/dashboard.php");
 }
+if (isset($_POST['tambah-data'])) {
+    $nik = post("nik");
+    $nama = post("nama");
+    $alamat = utf8_encode(post("alamat"));
+    $no_tlp = post("no_tlp");
+    $email  = post("email");
+    // $media = post("media");
+    $cabang = post("cabang");
+    $kode = post("kode");
 
-if (get("del") == "hapus") {
-    $nomor = get("nomor");
-    $file = '../whatsapp-session-' . $nomor . '.json';
-    $cekfile = file_exists($file);
+    // $tgl_pakai = date("Y-m-d", strtotime(post("tgl_pakai")));
+    $tgl_pakai = date("Y-m-d");
 
-    if ($cekfile == true) {
-        toastr_set("error", "Harap Logout koneksi sebelum menghapus!");
+//     if (!empty($_FILES['media']) && $_FILES['media']['error'] == UPLOAD_ERR_OK) {
+//         // Be sure we're dealing with an upload
+//         if (is_uploaded_file($_FILES['media']['tmp_name']) === false) {
+//             throw new \Exception('Error on upload: Invalid file definition');
+//         }
+
+
+//         if ($size > 1000000) {
+//             toastr_set("error", "Maximal 1mb");
+//             redirect("save_number.php");
+//             exit;
+//         }
+//  // Rename the uploaded file
+//  $uploadName = $_FILES['media']['name'];
+//  $ext = strtolower(substr($uploadName, strripos($uploadName, '.') + 1));
+
+//  $allow = ['png', 'jpeg', 'pdf', 'jpg'];
+//  if (in_array($ext, $allow)) {
+//      if ($ext == "pdf") {
+//          $filename = $username . '-' . round(microtime(true)) . $_FILES['media']['name'];
+//      }
+//      if ($ext == "png") {
+//          $filename = $username . '-' . round(microtime(true)) . mt_rand() . '.jpg';
+//      }
+//      if ($ext == "jpg") {
+//          $filename = $username . '-' . round(microtime(true)) . $_FILES['media']['name'];
+//      }
+
+//      if ($ext == "jpeg") {
+//          $filename = $username . '-' . round(microtime(true)) . $_FILES['media']['name'];
+//      }
+//  } else {
+//      toastr_set("error", "Format png, jpg, pdf only");
+//      redirect("save_data_kosan.php");
+//      exit;
+//  }
+//  mkdir('../uploads/base');
+//  move_uploaded_file($_FILES['media']['tmp_name'], '../uploads/base/' . $filename);
+//  // Insert it into our tracking along with the original name
+//  $media = $base_url . "uploads/base/" . $filename;
+// } else {
+//  $media = null;
+// }
+
+$u = $_SESSION['username'];
+
+$cek = mysqli_query($koneksi, "SELECT * FROM user WHERE nik = '$nik' OR no_tlp = '$no_tlp' OR kode = '$kode'");
+    if (mysqli_num_rows($cek) > 0) {
+
+        toastr_set("error", "Data user di input sudah tersedia");
+        redirect("dashboard.php");
     } else {
-        $q = mysqli_query($koneksi, "DELETE FROM device WHERE nomor='$nomor'");
-        toastr_set("success", "Sukses hapus user");
+        $q = mysqli_query($koneksi, "INSERT INTO user(`nik`,`nama`,`alamat`,`no_tlp`, `email`, `cabang`,`kode`,`tgl_pakai`, `make_by`)
+            VALUES('$nik','$nama','$alamat','$no_tlp','$email', '$cabang', '$kode','$tgl_pakai', '$u')");
+        toastr_set("success", "Sukses input data user");
+        redirect("dashboard.php");
     }
+
 }
 
-if (post("nomorwhatsapp")) {
-    $nomor = post("nomorwhatsapp");
-    $cek = mysqli_query($koneksi, "SELECT * FROM device WHERE nomor = '$nomor' ");
-    if (substr($nomor, 0, 2) != '62') {
-        toastr_set("error", "Nomor harus menggunakan kode negara ");
-    } else if (mysqli_num_rows($cek) > 0) {
-        toastr_set("error", "Nomor sudah ada di database");
-    } else {
-        $username = $_SESSION['username'];
-        $q = mysqli_query($koneksi, "INSERT INTO device VALUES (null,'$username','$nomor','')");
-        toastr_set("success", "Nomor berhasil ditambahkan");
-    }
+if (get("act") == "hapus") {
+    $id = get("id");
+
+    $q = mysqli_query($koneksi, "DELETE FROM kosan WHERE id='$id'");
+    toastr_set("success", "Berhasil hapus Data Kosan");
+    redirect("save_data_kosan.php");
 }
+
+if (get("act") == "delete_all") {
+    $q = mysqli_query($koneksi, "DELETE FROM kosan");
+    toastr_set("success", "Sukses hapus semua Data Kosan");
+    redirect("save_data_kosan.php");
+}
+
+
+// Update voucher
+// if (post("voucher")) {
+//     $voucher = post("voucher");
+//     $nama = post("nama");
+//     $type = post("type");
+//     $u = $_SESSION['username'];
+//     mysqli_query($koneksi, "UPDATE `kode_voucher` SET `stats` = 'used' WHERE `kode_voucher`.`kode` = '$voucher'");
+//     toastr_set("success", "Berhasil Update voucher.");
+//     redirect("dashboard.php");
+// }
 
 require_once('../templates/header.php');
 ?>
 
 
+<!-- Begin Page Content -->
 <div class="content-inner">
     <div class="container-fluid">
         <!-- Begin Page Header-->
         <div class="row">
             <div class="page-header">
                 <div class="d-flex align-items-center">
-                    <h2 class="page-header-title">Dashboard</h2>
+                    <h2 class="page-header-title">Pendataan Voucher</h2>
+                    <div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="dashboard.html"><i class="ti ti-home"></i></a></li>
+                            <li class="breadcrumb-item active">Pendataan Voucher</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-           <?php 
-     include_once('../settings/subscribe.php');
-        ?>
-        <!-- End Page Header -->
+        <!-- Sender -->
         <div class="row">
-            <div class="col-xl-6">
-                <button class="btn btn-primary" style="margin-bottom: -70px;" data-toggle="modal" data-target="#tambahNomorModal">Add Whatsapp</button>
-                <!-- Basic -->
-                <?php
-                $username = $_SESSION['username'];
-                $q = mysqli_query($koneksi, "SELECT * FROM device WHERE pemilik = '$username'");
-                while ($row = mysqli_fetch_assoc($q)) { ?>
-                    <div class="widget has-shadow">
-                        <div class="widget-header bordered no-actions d-flex align-items-center">
-                            <h4>Your Whatsapp Number</h4>
-                        </div>
-                        <div class="widget-body">
-                            <div class="inner-addon left-addon">
-                                <i class="la ion-social-whatsapp"></i>
-                                <input type="text" readonly name="nomorwhatsapp" value="<?= $row['nomor']; ?>" required class="form-control">
-                                <br>
-                            </div>
-                            <a class="btn btn-danger" href="dashboard.php?del=hapus&nomor=<?= $row['nomor']; ?>"> Hapus </a>
-                        </div>
-                    </div>
-                    <div class="widget has-shadow">
-                        <div class="widget-header bordered no-actions d-flex align-items-center">
-                            <h4>Scan QR Code</h4>
-                        </div>
-                        <div class="widget-body text-center">
-                            <div class="shadow areascanqr">
-                                <div class="card">
-                                    <div class="container mt-5 mb-5">
-                                        <div class="row">
-                                            <div class="col">
-                                                <img src="../img/qrload.png" class="card-img-top" alt="cardimg" onclick="scanqr('<?= $row['nomor']; ?>')" style="height:250px; width:250px;">
-                                            </div>
-                                        </div>
-                                        <div class="ml-2 mt-5">
-                                            <img src="../assets/img/blastjet-sm.png" style="width:80px" class="mb-2">BLASTJET WA GATEWAY<br>
-                                            <h4 class="text-left">Untuk menggunakan BlastJET WA Gateway Anda:</h4><br>
-                                            <span style="font-size:13px;text-align:left ;">
-                                                1. Buka WhatsApp di ponsel Anda<br>
-                                                2. Ketuk pada bagian <i class="la la-ellipsis-v text-dark"></i> atau Pengaturan <i class="la la-cog text-dark"></i> dan pilih <span style="color:black">Perangkat Tertaut</span><br>
-                                                3. Arahkan ponsel Anda ke Code QR ini untuk menangkap Kode tersebut dan menyambungkannya.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- qr -->
-                        </div>
-                    </div><?php } ?>
-            </div>
-            <!-- Modal -->
-
-            <!-- End Basic -->
+            <!-- Message -->
             <div class="col-xl-6 mb-4">
-                <!-- qr / apikey -->
                 <div class="widget has-shadow">
-                    <div class="widget-header">
-
-                        <div class="scanqr-api">
-
-                        </div>
-                        <div class="card-header">
-                            <div class="icon-api">
-                                <i class="la ion-social-whatsapp"></i>
-                            </div>
-                        </div>
+                    <div class="widget-header bordered no-actions d-flex align-items-center">
                     </div>
-                    <div class="widget-body">
-                        <h3 class="section-title mb-5 text-center">
-                            Hi! Welcome, <?= $_SESSION['username'] ?>
-                        </h3>
-                        <div class="progress progress-sm mb-3">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <label>Your Api Key</label>
-                        <input type="text" readonly value="<?= getSingleValDB("account", "username", "$username", "api_key") ?>" class="form-control mb-5" onclick="copyText()" style="cursor: pointer;" id="apiKey">
-                        <div class="progress progress-sm mb-3">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- End Row -->
-        <div class="modal fade" id="tambahNomorModal" tabindex="-1" role="dialog" aria-labelledby="tambahNomorModal" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Tambah Nomor </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" method="POST">
-                            <label> Nomor Whatsapp </label>
-                            <input type="number" name="nomorwhatsapp" value="62" required class="form-control">
+                    <div class="widget-body">   
+                        <form action="" method="post" enctype="multipart/form-data" name="formInput" onsubmit="validasiEmail();">
+                            <label for="">NIK KTP</label>
+                            <input class="form-control" type="number" name="nik" placeholder="no. KTP" autocomplete="off" required>
                             <br>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" name="tambahnomor" class="btn btn-primary">Simpan</button>
+                            <label> Nama Lengkap</label>
+                            <input class="form-control" type="text" name="nama" placeholder="Nama sesuai KTP" autocomplete="off" required>
+                            <br>
+                            <label> Alamat</label>
+                            <textarea type="text" name="alamat"  class="form-control" placeholder="alamat KTP" ></textarea>
+                            <br>
+                            <label> No. Tlp aktif</label>
+                            <input class="form-control" type="tel" name="no_tlp" placeholder="08xxxxxxxx" autocomplete="off" required>
+                            <br>
+                            <label> Email</label>
+                            <input class="form-control" type="email" name="email"  placeholder="xxxxx@xxx.com" autocomplete="off" >
+                            <br>
+                            <label for="">Lokasi cabang penukaran</label>
+                            <select class="form-control" name="cabang" style="width: 100%">
+                                <?php
+                                // $u = $_SESSION['username'];
+                                echo '<option>Pilih Cabang Terdekat</option>';
+                                $q = mysqli_query($koneksi, "SELECT * FROM branch ");
+                                while ($row = mysqli_fetch_assoc($q)) {
+                                    echo '<option value="' . $row['branch_name'] . '">' . $row['branch_name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                            <br>
+                            <h4 style="margin-left: 50px; font-size:small; color:orangered;">Cek voucher</h4>
+                        <table style="margin-left: 50px;">
+                            <tr><td>Voucher</td><td><input type="text" onkeyup="isi_otomatis();checkkode();" name="kode" id="kodev" autocomplete="off" style=" font-size:large; text-transform: uppercase; width: 100%" required></td></tr>
+                            <tr class="table-info"><td>Status</td><td><input type="text" id="stats" disabled required></td></tr>
+                        </table>
+                        <br>
+                        <br>
+                            <button class="btn btn-success" name="tambah-data" id="submit-button" type="submit">Simpan</button>
                         </form>
                     </div>
                 </div>
+        <!-- Alert Success -->
+        <?php if(isset($success)) : ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong >Maaf</strong> Voucher gagal digunakan.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
+            </button>
+        </div>
+        <?php endif ?>
+
+        <!-- Alert Danger -->
+        <?php if(isset($danger)) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong >Maaf</strong> Voucher gagal digunakan.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
+            </button>
+        </div>
+
+        <?php endif ?>
+
+        <!-- Alert Invalid -->
+        <?php if(isset($invalid)) : ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Maaf</strong> Kode voucher yang anda masukkan salah.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
+            </button>
+        </div>
+
+        <?php endif ?>
+
+        <!-- Alert used voucher -->
+        <?php if(isset($used)) : ?>
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong>Maaf</strong> Kode voucher sudah digunakan.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <!-- <span aria-hidden="true">&times;</span> -->
+            </button>
+        </div>
+
+        <?php endif ?>
             </div>
         </div>
-    </div>
+        <!-- /.container-fluid -->
 
+    </div>
     <?php
     include_once('../templates/footer.php')
     ?>
+    <!-- End of Main Content -->
     <!-- Bootstrap core JavaScript-->
     <script src="<?= $base_url; ?>vendor/jquery/jquery.min.js"></script>
     <script src="<?= $base_url; ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -177,199 +238,67 @@ require_once('../templates/header.php');
     <script src="<?= $base_url; ?>vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="<?= $base_url; ?>assets/vendors/js/app/app.min.js"></script>
     <!-- Page level plugins -->
-    <script src="<?= $base_url; ?>vendor/chart.js/Chart.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js" integrity="sha512-+l9L4lMTFNy3dEglQpprf7jQBhQsQ3/WvOnjaN/+/L4i0jOstgScV0q2TjfvRF4V+ZePMDuZYIQtg5T4MKr+MQ==" crossorigin="anonymous"></script> -->
-    <script src="../node_modules/socket.io/client-dist/socket.io.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous">
-    </script>
+    <script src="<?= $base_url; ?>vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?= $base_url; ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous"></script>
     <script>
-        function gagal() {
-            swal.fire('Gagal Memuat', 'Kesalahan!')
-        }
-
-        function copyText() {
-            /* Get the text field */
-            var copyText = document.getElementById("apiKey");
-
-            /* Select the text field */
-            copyText.select();
-
-            /* Copy the text inside the text field */
-            document.execCommand("copy");
-
-            /* Alert the copied text */
-            toastr["success"]("Api Key Berhasil di Salin: " + copyText.value);
-        };
         <?php
 
         toastr_show();
+        swal_show();
 
         ?>
         $(document).ready(function() {
-            $('#title').html('BLASTJET > Dashboard')
+            $('#title').html('PENTA PRIMA > Pendataan Voucher')
         });
-        document.getElementById("dashboard-sid").classList.add("active");
+        document.getElementById("voucher-sid").classList.add("active");
     </script>
-    <script>
-        // =========================================================
-        // GANTI SESUAI LETAK INSTALASI
-        // =========================================================
-
-        // Socket Hosting Web - hapus '//' dibawah ini untuk menggunakannya di hosting
-        var socket = io();
-
-        // ini socket untuk di localhost - Hapus '//' dibawah ini untuk menggunakannya di Localhost
-        //var socket = io('http://localhost:3000', {
-        //     transports: ['websocket',
-        //         'polling',
-        //           'flashsocket'
-        //       ]
-        //    });
-        // =========================================================
-        // PERHATIKAN PERHATIKAN PERHATIKAN PERHATIKAN
-        // =========================================================
-
-        function scanqr(nomor) {
-            $('.areascanqr').html(`
-<div class="card-body">
-    <div id="cardimg-${nomor}" class="text-center ">
-
-    </div>
-</div>
-`)
-            $(`#cardimg-${nomor}`).html(`
-            <div class="container mt-5 mb-5">
-                            <div class="row">
-                                <div class="col">
-                                <img src="../loading.gif" class="card-img-top center" alt="cardimg" id="qrcode"
-    style="height:250px; width:250px;">
-                                </div>
-                            </div>
-                            <div class="ml-2 mt-5">
-                                    <img src="../assets/img/blastjet-sm.png" style="width:80px" class="mb-2">BLASTJET WA GATEWAY<br>
-                                    <h4 class="text-left">Untuk menggunakan BlastJET WA Gateway Anda:</h4><br>
-                                    <span style="font-size:13px;text-align:left ;">
-                                                1. Buka WhatsApp di ponsel Anda<br>
-                                                2. Ketuk pada bagian <i class="la la-ellipsis-v text-dark"></i> atau Pengaturan <i class="la la-cog text-dark"></i> dan pilih <span style="color:black">Perangkat Tertaut</span><br>
-                                                3. Arahkan ponsel Anda ke Code QR ini untuk menangkap Kode tersebut dan menyambungkannya.</span>
-                                </div>
-                    </div>
-                    `);
-
-            $('#scanModal').modal('show');
-            socket.emit('create-session', {
-                id: nomor
-            });
-        }
-        // sethook
-        function sethook(id) {
-            $('.idnomor').val(id);
-            var hook = $('.urlwebhook').val();
-            $('#setHookModal').modal('show');
-        }
-
-        <?php
-        $username = $_SESSION['username'];
-        $q = mysqli_query($koneksi, "SELECT * FROM device WHERE pemilik = '$username'");
-        while ($row = mysqli_fetch_assoc($q)) { ?>
-
-            function logoutqr(nomor) {
-                socket.emit('logout', {
-                    id: nomor
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script type="text/javascript">
+            function isi_otomatis(){
+                var kode = $("#kodev").val();
+                $.ajax({
+                    url: '../helper/ajax.php',
+                    data:"kode="+kode ,
+                }).success(function (data) {
+                    var json = data,
+                    obj = JSON.parse(json);
+                    $('#stats').val(obj.stats);
                 });
             }
 
+            function checkkode(){
+            var kode=document.getElementById( "kodev" ).value;
 
-            socket.on('message', function(msg) {
-                $('.log').html(`<li>` + msg.text + `</li>`);
-            })
-            socket.on('qr', function(src) {
-                console.log(src)
-                $(`#cardimg-${src.id}`).html(`
-                <div class="container mt-5 mb-5">
-            <div class="row">
-            <div class="col">
-            <img src="` + src.src + `" class="card-img-top"  alt="cardimg" id="qrcode" style="height:250px; width:250px;"></div>
-    </div>
-    <div class="ml-2 mt-5">
-                                    <img src="../assets/img/blastjet-sm.png" style="width:80px" class="mb-2">BLASTJET WA GATEWAY<br>
-                                    <h4 class="text-left">Untuk menggunakan BlastJET WA Gateway Anda:</h4><br>
-                                    <span style="font-size:13px;text-align:left ;">
-                                                1. Buka WhatsApp di ponsel Anda<br>
-                                                2. Ketuk pada bagian <i class="la la-ellipsis-v text-dark"></i> atau Pengaturan <i class="la la-cog text-dark"></i> dan pilih <span style="color:black">Perangkat Tertaut</span><br>
-                                                3. Arahkan ponsel Anda ke Code QR ini untuk menangkap Kode tersebut dan menyambungkannya.</span>
-                                </div></div>
-                                `);
-                var count = 0;
-                var interval = setInterval(function() {
-                    count++
-                    $(`.info-${src.id}`).html(``);
-                    if (count == 10) {
-                        $(`#cardimg-${src.id}`).html(`
-                                    <div class="container mt-5 mb-5">
-                                        <div class="row">
-                                            <div class="col">
-                                                <img src="../img/qrload.png" onclick="scanqr('<?= $row['nomor']; ?>')"  class="card-img-top" alt="cardimg" style="height:250px; width:250px;"> 
-                                                </div> 
-                                                </div>
-                                                <div class ="ml-2 mt-5">
-                                    <img src = "../assets/img/blastjet-sm.png" style = "width:80px" class = "mb-2" > BLASTJET WA GATEWAY <br>
-                                    <h4 class = "text-left"> Untuk menggunakan BlastJET WA Gateway Anda: </h4><br> 
-                                    <span style="font-size:13px;text-align:left ;">
-                                                1. Buka WhatsApp di ponsel Anda<br>
-                                                2. Ketuk pada bagian <i class="la la-ellipsis-v text-dark"></i> atau Pengaturan <i class="la la-cog text-dark"></i> dan pilih <span style="color:black">Perangkat Tertaut</span><br>
-                                                3. Arahkan ponsel Anda ke Code QR ini untuk menangkap Kode tersebut dan menyambungkannya.</span>
-                                                 </div> 
-                                                 </div>`);
-
-                        clearInterval(interval)
-                    }
-                }, 1000);
+            if(kode)
+            {
+                $.ajax({
+                type: 'post',
+                url: '../helper/cekdata.php',
+                data: {
+                kode:kode,
+            },
+                success: function (response) {
+            $( '#kode_status' ).html(response);
+            if(response=="OK") {
+                $('#submit-button').prop('disabled', true)
+            return true;    
+            } else {
+                $('#submit-button').prop('disabled', false)
+                
+            return false;   
+            }
+            }
             });
-        <?php } ?>
-        // socket.on('authenticated', function(src) {
-        //     $(`#info-${src.id}`).attr('class', 'changed');
-        //     $('.changed').html('')
-        //     $(`#cardimg-${src.id}`).html(`<h2 class="text-center text-success mt-4">` + src.text + `<h2>`);
+            }
+            else
+            {
+            $( '#kode_status' ).html("");
+            return false;
+            }
+            }
 
-        // });
-        // ketika terhubung
-        socket.on('authenticated', function(src) {
-            const nomors = src.data.jid;
-            //  const nomor = src.id
-            const nomor = nomors.replace(/\D/g, '');
-            $(`#cardimg-${src.id}`).html(`<div style="color:green;">Whatsapp Sudah Siap Digunakan</div><br><br>
-            <table class="text-sm-left">
-            <tbody>
-    <tr>
-      <td>Name </td>
-      <td>: ${src.data.name}</td>
-    </tr>
-     <tr>
-      <td>Type Phone </td>
-      <td>: ${src.data.phone.device_model}</td>
-    </tr>
-    <tr>
-      <td>Version </td>
-      <td>: ${src.data.phone.wa_version}</td>
-    </tr>
-  </tbody>
-            </table>
-            <button class="btn btn-danger scanbutton" onclick="logoutqr(${nomor})">Logout</button>
-            `);
-            //  $('#cardimg').html(`<h2 class="text-center text-success mt-4">Whatsapp Connected.<br>` + src + `<h2>`);
-
-        });
-        socket.on('isdelete', function(src) {
-            //  $(`.info-${src.id}`).html(`<p><span class="text-danger">disconnect</span></p>`);
-            $(`#cardimg-${src.id}`).html(src.text);
-        });
-        socket.on('close', function(src) {
-            console.log(src);
-            $(`#cardimg-${src.id}`).html(`<h2 class="text-center text-danger mt-4">` + src.text + `<h2>`);
-        });
-    </script>
+        </script>
 
     </body>
 
