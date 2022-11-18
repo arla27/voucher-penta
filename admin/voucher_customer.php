@@ -25,49 +25,7 @@ if (isset($_POST['tambah-data'])) {
     // $tgl_pakai = date("Y-m-d", strtotime(post("tgl_pakai")));
     $tgl_pakai = date("Y-m-d");
 
-//     if (!empty($_FILES['media']) && $_FILES['media']['error'] == UPLOAD_ERR_OK) {
-//         // Be sure we're dealing with an upload
-//         if (is_uploaded_file($_FILES['media']['tmp_name']) === false) {
-//             throw new \Exception('Error on upload: Invalid file definition');
-//         }
 
-
-//         if ($size > 1000000) {
-//             toastr_set("error", "Maximal 1mb");
-//             redirect("save_number.php");
-//             exit;
-//         }
-//  // Rename the uploaded file
-//  $uploadName = $_FILES['media']['name'];
-//  $ext = strtolower(substr($uploadName, strripos($uploadName, '.') + 1));
-
-//  $allow = ['png', 'jpeg', 'pdf', 'jpg'];
-//  if (in_array($ext, $allow)) {
-//      if ($ext == "pdf") {
-//          $filename = $username . '-' . round(microtime(true)) . $_FILES['media']['name'];
-//      }
-//      if ($ext == "png") {
-//          $filename = $username . '-' . round(microtime(true)) . mt_rand() . '.jpg';
-//      }
-//      if ($ext == "jpg") {
-//          $filename = $username . '-' . round(microtime(true)) . $_FILES['media']['name'];
-//      }
-
-//      if ($ext == "jpeg") {
-//          $filename = $username . '-' . round(microtime(true)) . $_FILES['media']['name'];
-//      }
-//  } else {
-//      toastr_set("error", "Format png, jpg, pdf only");
-//      redirect("save_data_kosan.php");
-//      exit;
-//  }
-//  mkdir('../uploads/base');
-//  move_uploaded_file($_FILES['media']['tmp_name'], '../uploads/base/' . $filename);
-//  // Insert it into our tracking along with the original name
-//  $media = $base_url . "uploads/base/" . $filename;
-// } else {
-//  $media = null;
-// }
 
 $u = $_SESSION['username'];
 
@@ -100,16 +58,7 @@ if (get("act") == "delete_all") {
 }
 
 
-// Update voucher
-// if (post("voucher")) {
-//     $voucher = post("voucher");
-//     $nama = post("nama");
-//     $type = post("type");
-//     $u = $_SESSION['username'];
-//     mysqli_query($koneksi, "UPDATE `kode_voucher` SET `stats` = 'used' WHERE `kode_voucher`.`kode` = '$voucher'");
-//     toastr_set("success", "Berhasil Update voucher.");
-//     redirect("voucher_customer.php");
-// }
+
 
 require_once('../templates/header.php');
 ?>
